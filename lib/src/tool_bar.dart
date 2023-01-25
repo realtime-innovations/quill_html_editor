@@ -246,6 +246,10 @@ class ToolBarState extends State<ToolBar> {
           padding: _buttonPadding,
           style: toolbarItem.style,
           isActive: toolbarItem.isActive,
+          buttonColor: toolbarItem.buttonColor,
+          buttonSelectedColor: toolbarItem.buttonSelectedColor,
+          buttonBgColor: toolbarItem.buttonBgColor,
+          buttonBgSelectedColor: toolbarItem.buttonBgSelectedColor,
           onTap: () async {
             if (toolbarItem.style == ToolBarStyle.image) {
               await ImageSelector(onImagePicked: (value) {
