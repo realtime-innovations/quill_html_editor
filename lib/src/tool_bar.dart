@@ -29,12 +29,28 @@ class ToolBar extends StatefulWidget {
     required this.controller,
     this.customButtons,
     this.padding,
+    this.buttonColor,
+    this.buttonSelectedColor,
+    this.buttonBgColor,
+    this.buttonBgSelectedColor,
   }) : super(
           key: controller.toolBarKey,
         );
 
   /// [padding] The amount of space by which to inset the toolbar style widgets.
   final EdgeInsetsGeometry? padding;
+
+  ///[buttonColor] to set the background color of toolbar buttons when inactive
+  final Color? buttonColor;
+
+  ///[buttonSelectedColor] to set the background color of toolbar buttons when active
+  final Color? buttonSelectedColor;
+
+  ///[buttonBgColor] to set the background color of toolbar buttons when inactive
+  final Color? buttonBgColor;
+
+  ///[buttonBgSelectedColor] to set the background color of toolbar buttons when active
+  final Color? buttonBgSelectedColor;
 
   @override
   State<ToolBar> createState() => ToolBarState();
@@ -60,12 +76,23 @@ class ToolBarState extends State<ToolBar> {
           style: style,
           isActive: false,
           padding: _buttonPadding,
+          buttonColor: widget.buttonColor ?? Colors.blue,
+          buttonSelectedColor: widget.buttonSelectedColor ?? Colors.white,
+          buttonBgColor: widget.buttonBgColor ?? Colors.white,
+          buttonBgSelectedColor: widget.buttonBgSelectedColor ?? Colors.blue,
         ));
       }
     } else {
       for (var style in widget.toolBarConfig!) {
         _toolbarList.add(ToolBarItem(
-            style: style, isActive: false, padding: _buttonPadding));
+          style: style,
+          isActive: false,
+          padding: _buttonPadding,
+          buttonColor: widget.buttonColor ?? Colors.blue,
+          buttonSelectedColor: widget.buttonSelectedColor ?? Colors.white,
+          buttonBgColor: widget.buttonBgColor ?? Colors.white,
+          buttonBgSelectedColor: widget.buttonBgSelectedColor ?? Colors.blue,
+        ));
       }
     }
 
@@ -550,6 +577,18 @@ class ToolBarItem extends StatelessWidget {
   /// The amount of space by which to inset the child.
   EdgeInsetsGeometry padding;
 
+  ///[buttonColor] to set the background color of toolbar buttons when inactive
+  final Color? buttonColor;
+
+  ///[buttonSelectedColor] to set the background color of toolbar buttons when active
+  final Color? buttonSelectedColor;
+
+  ///[buttonBgColor] to set the background color of toolbar buttons when inactive
+  final Color? buttonBgColor;
+
+  ///[buttonBgSelectedColor] to set the background color of toolbar buttons when active
+  final Color? buttonBgSelectedColor;
+
   ///[ToolBarItem] toolbaritem widget to show buttons based on style
   ToolBarItem({
     super.key,
@@ -557,14 +596,23 @@ class ToolBarItem extends StatelessWidget {
     required this.isActive,
     required this.padding,
     this.onTap,
+    this.buttonColor,
+    this.buttonSelectedColor,
+    this.buttonBgColor,
+    this.buttonBgSelectedColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Padding(
+      child: Container(
         padding: padding,
+        margin: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: isActive ? buttonBgSelectedColor : buttonBgColor,
+        ),
         child: SizedBox(child: _getIconByStyle(style)),
       ),
     );
@@ -621,7 +669,7 @@ class ToolBarItem extends StatelessWidget {
 
   Icon _getIconWidget(IconData iconData) => Icon(
         iconData,
-        color: isActive ? Colors.blue : Colors.black87,
+        color: isActive ? buttonSelectedColor : buttonColor,
         size: 22,
       );
 
